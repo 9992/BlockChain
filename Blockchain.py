@@ -18,7 +18,7 @@ class Blockchain(object):
 
 
 
-    def new_block(self,proof, previous_hash=None):
+    def new_block(self, proof, previous_hash=None):
         """
             proof 는 pow 알고리즘의 의해서 제공됨
             previous_hash 앞선 블록의 해시 값, 이를 통해 체인 연결이 됨
@@ -27,7 +27,7 @@ class Blockchain(object):
         block = {
             'index' : len(self.chain) + 1,
             'timestamp' : time(),
-            'trasactions' :self.current_transactions,
+            'transactions' :self.current_transactions,
             'proof' : proof,
             'previous_hash' : previous_hash or self.hash(self.chain[-1])
         }
@@ -97,7 +97,7 @@ class Blockchain(object):
             return <bool>
         """
 
-        guess = '{last_proof}{proof}'.format(last_proof,proof).encode()
+        guess = f'{last_proof}{proof}'.encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
         return guess_hash[:4] == "0000"
 
@@ -123,7 +123,7 @@ def new_transaction():
     # 새로운 거래 생성
     index = blockchain.new_transaction(values['sender'], values['recipient'], values['amount'])
     
-    response = {'message' : 'Transaction will be added to Block {index}'.format(index)}
+    response = {'message' : f'Transaction will be added to Block {index}'}
     return jsonify(response), 201
 
 @app.route('/mine', methods = ['GET'])
