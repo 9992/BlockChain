@@ -29,7 +29,7 @@ def upload():
     chain.new_contents(
         contents_number = "!!! 여기에 글 번호가 들어오게 !!",
         contents_title = "!!! 여기에 글 제목이 들어오게 !!",
-        user_id = "!!! 여기에 사용자 계정이 들어오게 !!",
+        user_id = 12345979,
         contents_main = "!!!여기에는 그냥 글 내용이 나오게, 글 내용은 인스턴스를 내부의 함수를 통해 해시화 된다. !!",
     )
 

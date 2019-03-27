@@ -28,7 +28,7 @@ class Blockchain(object):
          'contents_number':contents_number,
          'contents_title' :contents_title,
          'user_id':user_id,
-         'contents_main':hashlib.sha256(contents_main),
+         'contents_main':contents_main,
       }
       )
 
