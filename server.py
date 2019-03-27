@@ -20,7 +20,7 @@ def new_conteSEnts():
     response = { 'message' : f'Transaction will be added to Block {index}'}
     return jsonify(response), 201
 
-@app.route('/upload', methods = ['GET'])
+@app.route('/upload', methods = ['POST'])
 def upload():
     last_block = chain.last_block
     last_proof = last_block['proof']
