@@ -14,9 +14,9 @@ class Blockchain(object):
       block = {
          'index' : len(self.chain) + 1,
          'timestamp' : time(),
-         'transactions' :self.current_transactions,
          'proof' : proof,
-         'previous_hash' : previous_hash or self.hash(self.chain[-1])
+         'previous_hash' : previous_hash or self.hash(self.chain[-1]),
+         'transactions' :self.current_transactions
       }
       self.current_transactions = []
 
