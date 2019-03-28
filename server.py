@@ -36,7 +36,7 @@ def upload():
     previous_hash = chain.hash(last_block)
     block = chain.new_block(proof, previous_hash)
 
-    response = {
+    response = {    
         'message' : "New Block Forged",
         'index' : block['index'],
         'transactions' : block['transactions'],
