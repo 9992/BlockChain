@@ -1,4 +1,7 @@
+#-*-coding:utf-8
+
 import Blockchain
+import json
 from uuid import uuid4
 from flask import Flask, jsonify, request 
 
@@ -7,11 +10,12 @@ app = Flask(__name__)
 
 node_identifier = str(uuid4()).replace('-','')
 
-@app.route('/new_contents/new', methods=['POST'])
+@app.route('/contents/new', methods=['POST'])
 def new_contents():
     values = request.get_json()
 
-    required = ['user_id','contents_number','contents_title','contents_main']
+    required = ['user_id', 'contents_number', 'contents_title', 'contents_main']
+
     if not all(k in values for k in required):
         return 'Missing Values', 400
 
@@ -27,17 +31,16 @@ def upload():
     proof = chain.proof_of_work(last_proof)
 
     chain.new_contents(
-        user_id = 12345979,
-        contents_number = "!!! 여기에 글 번호가 들어오게 !!",
-        contents_title = "!!! 여기에 글 제목이 들어오게 !!",
-        contents_main = "!!!여기에는 그냥 글 내용이 나오게, 글 내용은 인스턴스를 내부의 함수를 통해 해시화 된다. !!",
+        user_id = "User ID",
+        contents_number = "contents_number",
+        contents_title = "contents_title",
+        contents_main = "contents_main"
     )
 
     previous_hash = chain.hash(last_block)
     block = chain.new_block(proof, previous_hash)
 
     response = {    
-        'message' : "New Block Forged",
         'index' : block['index'],
         'proof' : block['proof'],
         'previous_hash': block['previous_hash'],
@@ -48,8 +51,8 @@ def upload():
 @app.route('/chain', methods=['GET'])
 def full_chain():
     response = {
-    'chain' : chain.chain,
-    'length' : len(chain.chain),
+        'chain' : chain.chain,
+        'length' : len(chain.chain),
     }
 
     return jsonify(response),200
