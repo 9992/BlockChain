@@ -63,7 +63,7 @@ class Blockchain(object):
 
    def registe_node(self, address):
       parsed_url = urlparse(address)
-      self.nodes.add(pasred_url.netloc)
+      self.nodes.add(parsed_url.netloc)
 
    def valid_chain(self, chain):
       last_block = chain[0]
