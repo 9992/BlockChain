@@ -57,6 +57,39 @@ def full_chain():
 
     return jsonify(response),200
 
+@app.route('/nodes/register', methods=['POST'])
+def register_node():
+    values = request.json()
+    nodes = values.get('nodes')
+    if nodes is None:
+        return "Error: Please supply a valid list of nodes", 400
+
+    for node in nodes:
+        chain.register_node(node)
+
+    response = {
+        'message' : 'New nodes have been added',
+        'total_nodes' : list(chain.nodes)
+    }
+    return jsonify(response), 201
+
+@app.route('/nodes/resolve', methods=['GET'])
+def consensus():
+    replaced = chain.resolve_conflicts()
+
+    if replaced:
+        response ={
+            'message' : 'Chain is replaced',
+            'new_chain' : chain.chain
+        }
+    else:
+        response ={
+            'message' : 'authoritative',
+            'new_chain' : chain.chain
+        }
+
+    return jsonify(response), 200
+
 
 if __name__=="__main__":
     from argparse import ArgumentParser
