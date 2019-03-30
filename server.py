@@ -8,14 +8,14 @@ app = Flask(__name__)
 node_identifier = str(uuid4()).replace('-','')
 
 @app.route('/new_contents/new', methods=['POST'])
-def new_conteSEnts():
+def new_contents():
     values = request.get_json()
 
-    required = ['contents_number','contents_title','user_id','contents_main']
+    required = ['user_id','contents_number','contents_title','contents_main']
     if not all(k in values for k in required):
         return 'Missing Values',400
 
-    index = chain.new_contents(values['contents_number'],values['recipient'],values['user_id'],values['contents_main'])
+    index = chain.new_contents(values['contents_number'],values['contents_title'],values['user_id'],values['contents_main'])
 
     response = { 'message' : f'Transaction will be added to Block {index}'}
     return jsonify(response), 201
@@ -27,9 +27,9 @@ def upload():
     proof = chain.proof_of_work(last_proof)
 
     chain.new_contents(
+        user_id = 12345979,
         contents_number = "!!! 여기에 글 번호가 들어오게 !!",
         contents_title = "!!! 여기에 글 제목이 들어오게 !!",
-        user_id = 12345979,
         contents_main = "!!!여기에는 그냥 글 내용이 나오게, 글 내용은 인스턴스를 내부의 함수를 통해 해시화 된다. !!",
     )
 
@@ -39,9 +39,9 @@ def upload():
     response = {    
         'message' : "New Block Forged",
         'index' : block['index'],
-        'transactions' : block['transactions'],
         'proof' : block['proof'],
         'previous_hash': block['previous_hash'],
+        'transactions' : block['transactions'],
     }
     return jsonify(response), 200
 

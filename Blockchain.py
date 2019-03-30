@@ -8,7 +8,7 @@ class Blockchain(object):
    def __init__(self):
       self.current_transactions = []
       self.chain = []
-      self.new_block(previous_hash=1,proof=100)
+      self.new_block(previous_hash=1,proof='0000241152154')
    
    def new_block(self,proof,previous_hash=None):
       block = {
@@ -25,9 +25,9 @@ class Blockchain(object):
 
    def new_contents(self,contents_number,contents_title,user_id,contents_main):
       self.current_transactions.append({
+         'user_id':user_id,
          'contents_number':contents_number,
          'contents_title' :contents_title,
-         'user_id':user_id,
          'contents_main':contents_main,
       }
       )
