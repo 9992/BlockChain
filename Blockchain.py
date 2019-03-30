@@ -61,7 +61,7 @@ class Blockchain(object):
       return guess_hash[:4] =="0000" 
       # 난이도 조절 부분
 
-   def registe_node(self, address):
+   def register_node(self, address):
       parsed_url = urlparse(address)
       self.nodes.add(parsed_url.netloc)
 
