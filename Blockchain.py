@@ -23,14 +23,13 @@ class Blockchain(object):
       self.chain.append(block)
       return block
 
-   def new_contents(self,contents_number,contents_title,user_id,contents_main):
+   def new_contents(self,user_id,contents_number,contents_title,contents_main):
       self.current_transactions.append({
-         'user_id':user_id,
-         'contents_number':contents_number,
-         'contents_title' :contents_title,
-         'contents_main':contents_main,
-      }
-      )
+         'user_id' : user_id,
+         'contents_number' : contents_number,
+         'contents_title' : contents_title,
+         'contents_main' : contents_main,
+      })
 
       return self.last_block['index'] + 1
 

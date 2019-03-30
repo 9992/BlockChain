@@ -3,8 +3,8 @@ from uuid import uuid4
 from flask import Flask, jsonify, request 
 
 chain = Blockchain.Blockchain()
-
 app = Flask(__name__)
+
 node_identifier = str(uuid4()).replace('-','')
 
 @app.route('/new_contents/new', methods=['POST'])
@@ -13,9 +13,9 @@ def new_contents():
 
     required = ['user_id','contents_number','contents_title','contents_main']
     if not all(k in values for k in required):
-        return 'Missing Values',400
+        return 'Missing Values', 400
 
-    index = chain.new_contents(values['contents_number'],values['contents_title'],values['user_id'],values['contents_main'])
+    index = chain.new_contents(values['user_id'],values['contents_number'],values['contents_title'],values['contents_main'])
 
     response = { 'message' : f'Transaction will be added to Block {index}'}
     return jsonify(response), 201
