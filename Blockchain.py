@@ -1,6 +1,7 @@
 import hashlib
 import json
 import requests
+from uuid import uuid4
 from time import time
 from urllib.parse import urlparse
 
@@ -11,8 +12,9 @@ class Blockchain(object):
    def __init__(self):
       self.current_transactions = []
       self.chain = []
-      self.new_block(previous_hash=1,proof='0000241152154')
-      self.nodes=set()
+      self.nodes = set()
+      
+      self.new_block(previous_hash='1',proof=241152154)
    
    def new_block(self,proof,previous_hash=None):
       block = {
@@ -63,10 +65,15 @@ class Blockchain(object):
 
    def register_node(self, address):
       parsed_url = urlparse(address)
-      self.nodes.add(parsed_url.netloc)
+      if parsed_url.netloc:
+         self.nodes.add(parsed_url.netloc)
+      elif parsed_url.path:
+         self.nodes.add(parsed_url.path)
+      else:
+         raise ValueError('Invalid URL')
 
    def valid_chain(self, chain):
-      last_block = chain[0]
+      last_block = chain[0] 
       current_index =1
 
       while current_index < len(chain):
@@ -90,8 +97,10 @@ class Blockchain(object):
       neighbours = self.nodes
       new_chain = None
 
+      max_length = len(self.chain)
+
       for node in neighbours:
-         response = requests.get(f'http://{node}/chain')
+         response = requests.get(f'http://{node}/chain') 
 
          if response.status_code == 200:
             length = response.json()['length']
@@ -105,6 +114,8 @@ class Blockchain(object):
             self.chain = new_chain
             return True
 
-      return False
+         return False
+
+
 
    

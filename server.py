@@ -8,7 +8,7 @@ from flask import Flask, jsonify, request
 chain = Blockchain.Blockchain()
 app = Flask(__name__)
 
-node_identifier = str(uuid4()).replace('-','')
+node_identifier = str(uuid4()).replace('-', '')
 
 @app.route('/contents/new', methods=['POST'])
 def new_contents():
@@ -24,8 +24,8 @@ def new_contents():
     response = { 'message' : f'Transaction will be added to Block {index}'}
     return jsonify(response), 201
 
-@app.route('/upload', methods = ['POST'])
-def upload():
+@app.route('/mine', methods = ['POST'])
+def mine():
     last_block = chain.last_block
     last_proof = last_block['proof']
     proof = chain.proof_of_work(last_proof)
@@ -60,6 +60,7 @@ def full_chain():
 @app.route('/nodes/register', methods=['POST'])
 def register_node():
     values = request.get_json()
+
     nodes = values.get('nodes')
     if nodes is None:
         return "Error: Please supply a valid list of nodes", 400
@@ -98,4 +99,4 @@ if __name__=="__main__":
     parser.add_argument('-p', '--port', default=5000, type=int, help='port to listen on')
     args = parser.parse_args()
     port = args.port
-    app.run(host='0.0.0.0', port= 5000)
+    app.run(host='0.0.0.0', port=port)
