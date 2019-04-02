@@ -14,14 +14,15 @@ class Blockchain(object):
       self.chain = []
       self.nodes = set()
       
-      self.new_block(previous_hash='1',proof=241152154)
-   
-   def new_block(self,proof,previous_hash=None):
+      self.new_block(previous_hash='1',proof=241152154) # 제네시스 블럭?
+
+   def new_block(self,proof,previous_hash=None,merkle_hash=None):
       block = {
          'index' : len(self.chain) + 1,
          'timestamp' : time(),
          'proof' : proof,
          'previous_hash' : previous_hash or self.hash(self.chain[-1]),
+         'merkle_hash' : merkle_hash,
          'transactions' :self.current_transactions
       }
       self.current_transactions = []
