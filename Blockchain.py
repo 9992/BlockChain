@@ -17,15 +17,15 @@ class Blockchain(object):
       self.chain = []
       self.nodes = set()
       
-      self.new_block(previous_hash='1',proof=241152154) # 제네시스 블럭?
+      self.new_block(previous_hash='1',proof=241152154, merkle_root='test') # 제네시스 블럭?
 
-   def new_block(self,proof,previous_hash=None,merkle_root=None):
+   def new_block(self,proof,previous_hash=None):
       block = {
          'index' : len(self.chain) + 1,
          'timestamp' : time(),
          'proof' : proof,
          'previous_hash' : previous_hash or self.hash(self.chain[-1]),
-         'merkle_root' : merkle_root or merkle.merkle(self.merkle_hash),
+         'merkle_root' : "NULL" if len(merkle_hash)==0 else merkle.merkle(self.merkle_hash),
          'transactions' :self.current_transactions
       }
       self.current_transactions = []
@@ -53,7 +53,7 @@ class Blockchain(object):
 
    @staticmethod
    def hash(block):
-      block_str = json.dumps(block,sort_keys = True).encode()
+      block_str = json.dumps(block,sort_keys = False).encode()
       return hashlib.sha256(block_str).hexdigest()
 
    # @property 
