@@ -4,32 +4,36 @@ import requests
 from uuid import uuid4
 from time import time
 from urllib.parse import urlparse
+import merkle
 
 
 # 새로 구성해야하기 때문에
 # 원본 파일 복사 내용을 지움
 class Blockchain(object):
    def __init__(self):
+      self.merkle_root = ''
+      self.merkle_hash = []
       self.current_transactions = []
       self.chain = []
       self.nodes = set()
       
       self.new_block(previous_hash='1',proof=241152154) # 제네시스 블럭?
 
-   def new_block(self,proof,previous_hash=None,merkle_hash=None):
+   def new_block(self,proof,previous_hash=None,merkle_root=None):
       block = {
          'index' : len(self.chain) + 1,
          'timestamp' : time(),
          'proof' : proof,
          'previous_hash' : previous_hash or self.hash(self.chain[-1]),
-         'merkle_hash' : merkle_hash,
+         'merkle_root' : merkle_root or merkle.merkle(self.merkle_hash),
          'transactions' :self.current_transactions
       }
       self.current_transactions = []
+      self.merkle_hash = []
 
       self.chain.append(block)
       return block
-
+hashlib
    def new_contents(self,user_id,contents_number,contents_title,contents_main):
       self.current_transactions.append({
          'user_id' : user_id,
@@ -38,6 +42,13 @@ class Blockchain(object):
          'contents_main' : contents_main,
       })
 
+      u_i : hashlib.sha256(user_id).digest()
+      c_n : hashlib.sha256(contents_number).digest()
+      c_t : hashlib.sha256(contents_title).digest()
+      c_m : hashlib.sha256(contents_main).digest()
+      
+      self.merkle_hash.append(hashlib.sha256(u_i+c_n+c_t+c_m).digest())
+      
       return self.last_block['index'] + 1
 
    @staticmethod
