@@ -17,7 +17,7 @@ class Blockchain(object):
       self.chain = []
       self.nodes = set()
       
-      self.new_block(previous_hash='1',proof=241152154, merkle_root='test') # 제네시스 블럭?
+      self.new_block(previous_hash='1',proof=241152154) # 제네시스 블럭?
 
    def new_block(self,proof,previous_hash=None):
       block = {
