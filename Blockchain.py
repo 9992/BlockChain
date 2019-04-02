@@ -25,7 +25,7 @@ class Blockchain(object):
          'timestamp' : time(),
          'proof' : proof,
          'previous_hash' : previous_hash or self.hash(self.chain[-1]),
-         'merkle_root' : "NULL" if len(merkle_hash)==0 else merkle.merkle(self.merkle_hash),
+         'merkle_root' : "NULL" if len(self.merkle_hash)==0 else merkle.merkle(self.merkle_hash),
          'transactions' :self.current_transactions
       }
       self.current_transactions = []
