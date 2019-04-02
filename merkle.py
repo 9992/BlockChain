@@ -1,3 +1,4 @@
+import json
 import hashlib
 
 def merkle(hashList):
@@ -14,9 +15,9 @@ def merkle(hashList):
 # 해시의 기본 원리는 모든 문자스트림을 리틀 엔디언 순으로 읽어들여 나눈다.
 # 따라서 해시와 해시를 더할 때에는 역순으로 더 할 수 있도록 해야한다.
 def calc_hash(a_list,b_list):
-    a = a_list[::-1]
-    b = b_list[::-1]
-    result_hash = hashlib.sha256(hashlib.sha256(a+b).digest()).digest()
+    a = a_list[::-1].hexdigest()
+    b = b_list[::-1].hexdigest()
+    result_hash = hashlib.sha256(hashlib.sha256(a+b).hexdigest()).hexdigest()
     return result_hash[::-1]
 
 txHashes = [
