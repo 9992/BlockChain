@@ -44,6 +44,7 @@ def mine():
         'index' : block['index'],
         'proof' : block['proof'],
         'previous_hash': block['previous_hash'],
+        'merkle_root' : block['merkle_root'],
         'transactions' : block['transactions'],
     }
     return jsonify(response), 200
