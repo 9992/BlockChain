@@ -50,14 +50,6 @@ def mine():
     last_block = chain.last_block
     last_proof = last_block['proof']
     proof = chain.proof_of_work(last_proof)
-
-    #chain.new_contents(
-    #    user_id = "User ID",
-    #    contents_number = "contents_number",
-    #    contents_title = "contents_title",
-    #   contents_main = "contents_main"
-    #)
-
     previous_hash = chain.hash(last_block)
     block = chain.new_block(proof, previous_hash)
 
