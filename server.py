@@ -35,7 +35,7 @@ def new_contents():
         print(addr)
         #dict_a = json.loads(data).decode()
         #print(dict_a)
-        dict_b = json.loads(data.decode('utf-8'))
+        dict_b = json.loads(data)
         print(dict_b)
         print(type(dict_b))
         #data = json.dumps(data).decode()

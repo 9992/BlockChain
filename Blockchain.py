@@ -47,13 +47,13 @@ class Blockchain(object):
       c_t = hashlib.sha256(contents_title.encode()).digest()
       c_m = hashlib.sha256(contents_main.encode()).digest()
       
-      self.merkle_hash.append(hashlib.sha256(u_i+c_n+c_t+c_m).digest())
+      self.merkle_hash.append(hashlib.sha256(u_i+c_n+c_t+c_m).hexdigest())
       
       return self.last_block['index'] + 1
 
    @staticmethod
    def hash(block):
-      block_str = json.dumps(block,sort_keys = False).encode()
+      block_str = json.dumps(block, sort_keys=True).encode()
       return hashlib.sha256(block_str).hexdigest()
 
    # @property 
