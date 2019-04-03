@@ -72,7 +72,7 @@ class Blockchain(object):
    def valid_proof(last_proof,proof):
       guess = f'{last_proof}{proof}'.encode()
       guess_hash = hashlib.sha256(guess).hexdigest()
-      return guess_hash[:4] =="0000" 
+      return guess_hash[:4] == "0000" 
       # 난이도 조절 부분
 
    def register_node(self, address):
