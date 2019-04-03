@@ -1,9 +1,16 @@
 #-*-coding:utf-8
-
+import socket
 import Blockchain
 import json
 from uuid import uuid4
 from flask import Flask, jsonify, request 
+
+
+UDP_PORT = [5000,5001,5002,5003]
+def port_filtering(args_port):
+    UDP_PORT.remove(args_port)
+    print(UDP_PORT)
+
 
 chain = Blockchain.Blockchain()
 app = Flask(__name__)
@@ -18,9 +25,20 @@ def new_contents():
 
     if not all(k in values for k in required):
         return 'Missing Values', 400
-
-    index = chain.new_contents(values['user_id'],values['contents_number'],values['contents_title'],values['contents_main'])
-
+    msg_data = {'user_id' : values['user_id'], 'contents_number' : values['contents_number'], 'contents_title' : values['contents_title'], 'contents_main' : values['contents_main']}
+    if port not in UDP_PORT:
+        index = chain.new_contents(values['user_id'],values['contents_number'],values['contents_title'],values['contents_main'])
+        MESSAGE = msg_data
+        n_port = len(UDP_PORT)
+        sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+        for i in range(n_port):
+            sock.sendto(MESSAGE, ('127.0.0.1',UDP_PORT[i]))
+    else:
+        sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+        msg_data, addr = sock.recvfrom(1024)
+        print(msg_data,addr)
+        index = chain.new_contents(values['user_id'],values['contents_number'],values['contents_title'],values['contents_main'])
+        
     response = { 'message' : f'Transaction will be added to Block {index}'}
     return jsonify(response), 201
 
@@ -30,12 +48,12 @@ def mine():
     last_proof = last_block['proof']
     proof = chain.proof_of_work(last_proof)
 
-    chain.new_contents(
-        user_id = "User ID",
-        contents_number = "contents_number",
-        contents_title = "contents_title",
-        contents_main = "contents_main"
-    )
+    #chain.new_contents(
+    #    user_id = "User ID",
+    #    contents_number = "contents_number",
+    #    contents_title = "contents_title",
+    #   contents_main = "contents_main"
+    #)
 
     previous_hash = chain.hash(last_block)
     block = chain.new_block(proof, previous_hash)
@@ -100,4 +118,5 @@ if __name__=="__main__":
     parser.add_argument('-p', '--port', default=5000, type=int, help='port to listen on')
     args = parser.parse_args()
     port = args.port
+    port_filtering(port)
     app.run(host='0.0.0.0', port=port)

@@ -3,3 +3,4 @@ test.py
 
 # 해당 폴더는 올리지 않도록 하는  설정 
 node_modules
+__pycache__

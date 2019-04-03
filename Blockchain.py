@@ -42,10 +42,10 @@ class Blockchain(object):
          'contents_main' : contents_main,
       })
 
-      u_i : hashlib.sha256(user_id).digest()
-      c_n : hashlib.sha256(contents_number).digest()
-      c_t : hashlib.sha256(contents_title).digest()
-      c_m : hashlib.sha256(contents_main).digest()
+      u_i = hashlib.sha256(user_id.encode()).digest()
+      c_n = hashlib.sha256(contents_number.encode()).digest()
+      c_t = hashlib.sha256(contents_title.encode()).digest()
+      c_m = hashlib.sha256(contents_main.encode()).digest()
       
       self.merkle_hash.append(hashlib.sha256(u_i+c_n+c_t+c_m).digest())
       
