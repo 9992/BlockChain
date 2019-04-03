@@ -60,6 +60,7 @@ def mine():
         'merkle_root' : block['merkle_root'],
         'transactions' : block['transactions'],
     }
+    
     return jsonify(response), 200
 
 @app.route('/chain', methods=['GET'])
