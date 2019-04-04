@@ -18,11 +18,11 @@ node_identifier = str(uuid4()).replace('-', '')
 def new_contents():
     if port not in UDP_PORT:
         values = request.get_json()
-        required = ['user_id', 'contents_number', 'contents_title', 'contents_main']
+        required = ['user_id', 'contents_title', 'contents_main']
         if not all(k in values for k in required):
             return 'Missing Values', 400
-        msg_data = {'user_id' : values['user_id'], 'contents_number' : values['contents_number'], 'contents_title' : values['contents_title'], 'contents_main' : values['contents_main']}     
-        index = chain.new_contents(values['user_id'],values['contents_number'],values['contents_title'],values['contents_main'])
+        msg_data = {'user_id' : values['user_id'], 'contents_title' : values['contents_title'], 'contents_main' : values['contents_main']}     
+        index = chain.new_contents(values['user_id'],values['contents_title'],values['contents_main'])
         MESSAGE = json.dumps(msg_data).encode()
         n_port = len(UDP_PORT)
         sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
@@ -33,13 +33,9 @@ def new_contents():
         recv_sock.bind(('127.0.0.1',port))
         data, addr = recv_sock.recvfrom(1024)
         print(addr)
-        #dict_a = json.loads(data).decode()
-        #print(dict_a)
         dict_b = json.loads(data)
         print(dict_b)
         print(type(dict_b))
-        #data = json.dumps(data).decode()
-        #print(data) 
         index = chain.new_contents(dict_b['user_id'],dict_b['contents_number'],dict_b['contents_title'],dict_b['contents_main'])
         
     response = { 'message' : f'Transaction will be added to Block {index}'}

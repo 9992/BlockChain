@@ -17,7 +17,7 @@ class Blockchain(object):
       self.chain = []
       self.nodes = set()
       
-      self.new_block(previous_hash='1',proof=241152154) # 제네시스 블럭?
+      self.new_block(previous_hash='1',proof='241152154') # 제네시스 블럭?
 
    def new_block(self,proof,previous_hash=None):
       block = {
@@ -37,17 +37,15 @@ class Blockchain(object):
    def new_contents(self,user_id,contents_number,contents_title,contents_main):
       self.current_transactions.append({
          'user_id' : user_id,
-         'contents_number' : contents_number,
          'contents_title' : contents_title,
-         'contents_main' : contents_main,
+         'contents_main' : hashlib.sha256(contents_main).hexdigest(),
       })
 
       u_i = hashlib.sha256(user_id.encode()).digest()
-      c_n = hashlib.sha256(contents_number.encode()).digest()
       c_t = hashlib.sha256(contents_title.encode()).digest()
       c_m = hashlib.sha256(contents_main.encode()).digest()
       
-      self.merkle_hash.append(hashlib.sha256(u_i+c_n+c_t+c_m).hexdigest())
+      self.merkle_hash.append(hashlib.sha256(u_i+c_t+c_m).hexdigest())
       
       return self.last_block['index'] + 1
 
