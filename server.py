@@ -36,7 +36,7 @@ def new_contents():
         dict_b = json.loads(data)
         print(dict_b)
         print(type(dict_b))
-        index = chain.new_contents(dict_b['user_id'],dict_b['contents_number'],dict_b['contents_title'],dict_b['contents_main'])
+        index = chain.new_contents(dict_b['user_id'],dict_b['contents_title'],dict_b['contents_main'])
         
     response = { 'message' : f'Transaction will be added to Block {index}'}
     return jsonify(response), 201
