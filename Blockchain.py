@@ -41,11 +41,13 @@ class Blockchain(object):
          'contents_main' : hashlib.sha256(contents_main.encode()).hexdigest(),
       })
 
-      u_i = hashlib.sha256(user_id.encode()).digest()
-      c_t = hashlib.sha256(contents_title.encode()).digest()
-      c_m = hashlib.sha256(contents_main.encode()).digest()
-      
-      self.merkle_hash.append(hashlib.sha256(u_i+c_t+c_m).hexdigest())
+      u_i = hashlib.sha256(user_id.encode()).hexdigest()
+      c_t = hashlib.sha256(contents_title.encode()).hexdigest()
+      c_m = hashlib.sha256(contents_main.encode()).hexdigest()
+      append_data = hashlib.sha256((u_i+c_t+c_m).encode()).hexdigest()
+      print(type(append_data))
+      print(append_data)
+      self.merkle_hash.append(append_data)
       
       return self.last_block['index'] + 1
 

@@ -1,5 +1,4 @@
 import hashlib
-from codecs import encode, decode
 
 def merkle(hList):
     if len(hList) == 1:
@@ -12,7 +11,14 @@ def merkle(hList):
     return merkle(newHList)
 
 def merklehhash(a, b):
-    a1 = decode(a[::-1],'hex')    
-    b1 = decode(b[::-1],'hex')
-    result = hashlib.sha256(a1+b1).digest()
-    return encode(result,'hex')[::-1]
+    a1 = a.encode('utf-8')[::-1]
+    b1 = b.encode('utf-8')[::-1]
+    #a1 = decode(a[::-1],'hex')    
+    #b1 = decode(b[::-1],'hex')
+    result = hashlib.sha256(a1+b1).hexdigest()
+    #result = hashlib.sha256(a1+b1).digest()
+    #print(result)
+    #print(encode(result,'hex')[::-1])
+    #print(encode(result2,'hex')[::-1])
+    return result[::-1]
+    # return encode(result,'hex')[::-1]
