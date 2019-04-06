@@ -3,6 +3,7 @@ import socket
 import Blockchain
 import json
 import ast
+import db_test
 from uuid import uuid4
 from flask import Flask, jsonify, request 
 
@@ -48,15 +49,18 @@ def mine():
     proof = chain.proof_of_work(last_proof)
     previous_hash = chain.hash(last_block)
     block = chain.new_block(proof, previous_hash)
-
+    db, cursor = db_test.db_connection.db_init()
     response = {    
         'index' : block['index'],
+        'timestamp' : block['timestamp'],
         'proof' : block['proof'],
         'previous_hash': block['previous_hash'],
         'merkle_root' : block['merkle_root'],
-        'transactions' : block['transactions'],
+        'transactions' : block['transactions']
     }
-    
+    db_test.view_insert(db, cursor, response['index'],response['timestamp'],response['proof'],response['previous_hash'],response['merkle_root'])
+    db_test.contents_insert(db,cursor,response['index'],response['transactions'])
+    db_test.db_connection.db_close(db)
     return jsonify(response), 200
 
 @app.route('/chain', methods=['GET'])
