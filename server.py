@@ -15,6 +15,23 @@ app = Flask(__name__)
 
 node_identifier = str(uuid4()).replace('-', '')
 
+@app.route('/contents/genesis',methods=['POST'])
+def register_genesisBlock():
+    block = chain.genesis_block()
+    db, cursor = db_test.db_connection.db_init()
+    response = {    
+        'index' : block['index'],
+        'timestamp' : block['timestamp'],
+        'proof' : block['proof'],
+        'previous_hash': block['previous_hash'],
+        'merkle_root' : block['merkle_root'],
+        'transactions' : block['transactions']
+    }
+    db_test.view_insert(db, cursor, block['index'],block['timestamp'],block['proof'],block['previous_hash'],block['merkle_root'])
+    db_test.contents_insert(db,cursor,block['index'],block['transactions'])
+    db_test.db_connection.db_close(db)
+    return jsonify(response), 200
+    
 @app.route('/contents/new', methods=['POST'])
 def new_contents():
     if port not in UDP_PORT:
@@ -42,7 +59,7 @@ def new_contents():
     response = { 'message' : f'Transaction will be added to Block {index}'}
     return jsonify(response), 201
 
-@app.route('/mine', methods = ['POST'])
+@app.route('/contents/upload', methods = ['POST'])
 def mine():
     last_block = chain.last_block
     last_proof = last_block['proof']
