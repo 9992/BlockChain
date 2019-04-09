@@ -4,6 +4,7 @@ import Blockchain
 import json
 import ast
 import db_test
+from time import time
 from uuid import uuid4
 from flask import Flask, jsonify, request 
 
@@ -17,6 +18,7 @@ node_identifier = str(uuid4()).replace('-', '')
 
 @app.route('/contents/genesis',methods=['POST'])
 def register_genesisBlock():
+    start = time()
     block = chain.genesis_block()
     db, cursor = db_test.db_connection.db_init()
     response = {    
@@ -27,7 +29,9 @@ def register_genesisBlock():
         'merkle_root' : block['merkle_root'],
         'transactions' : block['transactions']
     }
-    db_test.view_insert(db, cursor, block['index'],block['timestamp'],block['proof'],block['previous_hash'],block['merkle_root'])
+    end = time()
+    run_time = end - start
+    db_test.view_insert(db, cursor, block['index'],block['timestamp'],block['proof'],block['previous_hash'],block['merkle_root'],run_time)
     db_test.contents_insert(db,cursor,block['index'],block['transactions'])
     db_test.db_connection.db_close(db)
     return jsonify(response), 200
@@ -61,11 +65,14 @@ def new_contents():
 
 @app.route('/contents/upload', methods = ['POST'])
 def mine():
+    start = time()
     last_block = chain.last_block
     last_proof = last_block['proof']
     proof = chain.proof_of_work(last_proof)
     previous_hash = chain.hash(last_block)
     block = chain.new_block(proof, previous_hash)
+    end = time()
+    run_time = end - start
     db, cursor = db_test.db_connection.db_init()
     response = {    
         'index' : block['index'],
@@ -75,7 +82,7 @@ def mine():
         'merkle_root' : block['merkle_root'],
         'transactions' : block['transactions']
     }
-    db_test.view_insert(db, cursor, response['index'],response['timestamp'],response['proof'],response['previous_hash'],response['merkle_root'])
+    db_test.view_insert(db, cursor, response['index'],response['timestamp'],response['proof'],response['previous_hash'],response['merkle_root'],run_time)
     db_test.contents_insert(db,cursor,response['index'],response['transactions'])
     db_test.db_connection.db_close(db)
     return jsonify(response), 200

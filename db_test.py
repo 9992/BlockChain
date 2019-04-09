@@ -7,9 +7,9 @@ def contents_insert(db,cursor,index_n,transactions):
         cursor.execute(sql)
     db.commit()
     
-def view_insert(db,cursor,index_n,timestamp,proof,previous_hash,merkle_root):
+def view_insert(db,cursor,index_n,timestamp,proof,previous_hash,merkle_root,runtime):
     print(index_n,timestamp,proof,previous_hash,merkle_root)
     print(type(merkle_root))
-    sql = "INSERT INTO VIEW (index_n,time_stamp,proof,previous_hash,merkle_root_hash) VALUES ('"+str(index_n)+"','"+str(timestamp)+"','"+str(proof)+"','"+previous_hash+"','"+merkle_root+"')"
+    sql = "INSERT INTO VIEW (index_n,time_stamp,proof,previous_hash,merkle_root_hash,runtime) VALUES ('"+str(index_n)+"','"+str(timestamp)+"','"+str(proof)+"','"+previous_hash+"','"+merkle_root+"','"+ str(runtime) +"')"
     cursor.execute(sql)
     db.commit()

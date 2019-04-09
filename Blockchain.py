@@ -26,7 +26,7 @@ class Blockchain(object):
    def new_block(self,proof,previous_hash=None):
       block = {
          'index' : len(self.chain)+1,
-         'timestamp' : datetime.datetime.now(),
+         'timestamp' : str(datetime.datetime.now()),
          'proof' : proof,
          'previous_hash' : previous_hash or self.hash(self.chain[-1]),
          'merkle_root' : "None" if len(self.merkle_hash)==0 else merkle.merkle(self.merkle_hash),
@@ -34,7 +34,6 @@ class Blockchain(object):
       }
       self.current_transactions = []
       self.merkle_hash = []
-
       self.chain.append(block)
       return block
 
@@ -44,7 +43,6 @@ class Blockchain(object):
          'contents_title' : contents_title,
          'contents_main' : hashlib.sha256(contents_main.encode()).hexdigest(),
       })
-
       u_i = hashlib.sha256(user_id.encode()).hexdigest()
       c_t = hashlib.sha256(contents_title.encode()).hexdigest()
       c_m = hashlib.sha256(contents_main.encode()).hexdigest()
