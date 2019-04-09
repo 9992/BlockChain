@@ -1,6 +1,7 @@
 import hashlib
 import json
 import requests
+import datetime
 from uuid import uuid4
 from time import time
 from urllib.parse import urlparse
@@ -25,7 +26,7 @@ class Blockchain(object):
    def new_block(self,proof,previous_hash=None):
       block = {
          'index' : len(self.chain)+1,
-         'timestamp' : time(),
+         'timestamp' : datetime.datetime.now(),
          'proof' : proof,
          'previous_hash' : previous_hash or self.hash(self.chain[-1]),
          'merkle_root' : "None" if len(self.merkle_hash)==0 else merkle.merkle(self.merkle_hash),
