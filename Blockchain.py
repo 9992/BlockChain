@@ -129,7 +129,3 @@ class Blockchain(object):
             return True
 
          return False
-
-
-
-   
