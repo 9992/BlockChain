@@ -64,7 +64,7 @@ def new_contents():
     return jsonify(response), 201
 
 @app.route('/contents/upload', methods = ['POST'])
-def mine():
+def upload():
     start = time()
     last_block = chain.last_block
     last_proof = last_block['proof']
