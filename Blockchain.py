@@ -18,7 +18,7 @@ class Blockchain(object):
       self.chain = []
       self.nodes = set()
       
-      self.new_block(previous_hash='None',proof='7419215') # 제네시스 블럭
+      self.new_block(previous_hash='None',proof='1019215') # 제네시스 블럭
 
    def genesis_block(self):
       return self.chain[0]
@@ -74,7 +74,7 @@ class Blockchain(object):
    def valid_proof(last_proof,proof):
       guess = f'{last_proof}{proof}'.encode()
       guess_hash = hashlib.sha256(guess).hexdigest()
-      return guess_hash[:6] == "000000" 
+      return guess_hash[:5] == "00000" 
       # 난이도 조절 부분
 
    def register_node(self, address):
