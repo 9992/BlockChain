@@ -1,26 +1,6 @@
-### 구축환경
+### 프로젝트 개요
 
-| SW 및 모듈 정보 | 버전 |
-| --- | ---|
-| Chrome | v74.0 |
-| VS Code | v1.33.1|
-| HeidiSQL | v10.1|
-| Postman | v7.0.9|
-| Node.JS | v12.1.0|
-| npm | v6.9.0|
-| Python | v3.7.3|
-| Flask | v0.12.2|
-| Create-React-App | v3.0.1 |
-| nodemon | v1.19.0 |
-| pymysql | v0.9.3 |
-
-| AWS | 정보 |
-| --- | ---|
-| MySQL | v5.6.40 |
-| vCPU | 1thread |
-| RAM | 1GB |
-| SSD | 20GB |
-
+- 해시함수 별 블록체인 내 업로드 속도 비교
 
 ### 실행 순서
 
@@ -36,3 +16,24 @@
 ### 시스템 프로세스 
 
 <img src="https://i.ibb.co/rb3kKsV/image.png" alt="image" border="0">
+
+### 구축환경
+
+| SW 및 모듈 정보 | 버전 |
+| --- | ---|
+| Chrome | v74.0 |
+| VS Code | v1.33.1|
+| HeidiSQL | v10.1|
+| Postman | v7.0.9|
+| Node.JS | v12.1.0|
+| npm | v6.9.0|
+| Python | v3.7.3|
+| Flask | v0.12.2|
+| Create-React-App | v3.0.1 |
+| nodemon | v1.19.0 |
+| pymysql | v0.9.3 |
+| AWS | 정보 |
+| MySQL | v5.6.40 |
+| vCPU | 1thread |
+| RAM | 1GB |
+| SSD | 20GB |
